@@ -19,8 +19,7 @@ public class CommentController {
 
     @PostMapping("posts/{postId}/comments")
     public ResponseEntity<CommentDto>  createComment(@PathVariable(value = "postId") Long postId, @RequestBody CommentDto commentDto){
-        String em= commentDto.getEmail();
-        System.out.println(em);
+
 
         return new ResponseEntity<>(commentService.createComment(postId,commentDto), HttpStatus.CREATED);
 
