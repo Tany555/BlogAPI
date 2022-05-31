@@ -52,6 +52,7 @@ public class CommentController {
         return new ResponseEntity <>("Comment entity for Id: "+commentId+" deleted successfully for Post Id: "+postId, HttpStatus.OK);
     }
 
+
     @PutMapping("posts/{postId}/comments/{commentId}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable(name = "postId") Long postId,
                                                     @PathVariable(name = "commentId") Long commentId,
