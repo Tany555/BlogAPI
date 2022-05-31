@@ -42,8 +42,6 @@ public class CommentController {
         CommentDto commentDto = commentService.getCommentById(postId,commentId);
 
         return new ResponseEntity<>(commentDto, HttpStatus.OK);
-
-
     }
 
     @DeleteMapping("posts/{postId}/comments/{commentId}")
