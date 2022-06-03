@@ -4,6 +4,7 @@ import com.springboot.blog.payload.CommentDto;
 import com.springboot.blog.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ public class CommentController {
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
     }
-
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("posts/{postId}/comments")
     public ResponseEntity<CommentDto>  createComment(@PathVariable(value = "postId") Long postId, @Valid @RequestBody CommentDto commentDto){
 
@@ -27,7 +28,7 @@ public class CommentController {
         return new ResponseEntity<>(commentService.createComment(postId,commentDto), HttpStatus.CREATED);
 
     }
-
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("posts/{postId}/comments")
     public List<CommentDto> getAllCommentsByPostID(@PathVariable(value = "postId") Long postId){
 
@@ -35,7 +36,7 @@ public class CommentController {
 
 
     }
-
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("posts/{postId}/comments/{commentId}")
     public ResponseEntity<CommentDto> getCommentByCommentID(@PathVariable(value = "postId") Long postId,
                                                   @PathVariable(value = "commentId") Long commentId){
@@ -44,7 +45,7 @@ public class CommentController {
 
         return new ResponseEntity<>(commentDto, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("posts/{postId}/comments/{commentId}")
     public ResponseEntity<String> deleteCommentById(@PathVariable(name = "postId") Long postId,
                                                     @PathVariable(name = "commentId") Long commentId){
@@ -53,7 +54,7 @@ public class CommentController {
         return new ResponseEntity <>("Comment entity for Id: "+commentId+" deleted successfully for Post Id: "+postId, HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("posts/{postId}/comments/{commentId}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable(name = "postId") Long postId,
                                                     @PathVariable(name = "commentId") Long commentId,

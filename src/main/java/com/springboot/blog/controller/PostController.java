@@ -6,6 +6,7 @@ import com.springboot.blog.service.PostService;
 import com.springboot.blog.utils.AppConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ public class PostController {
 
     //create blog post REST API
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity <PostDto> createPost(@Valid @RequestBody PostDto postDto){
 
@@ -30,7 +32,7 @@ public class PostController {
 
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
-
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public PostResponce GetAllPosts(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false)int pageNo,
@@ -41,14 +43,14 @@ public class PostController {
 
         return postService.getAllPost(pageNo, pageSize, sortBy, sortDir);
     }
-
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") Long id){
 
         return ResponseEntity.ok(postService.getPostByID(id));
 
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public PostDto updatePost(@Valid @RequestBody PostDto postDto, @PathVariable(name = "id") Long id){
 
@@ -56,7 +58,7 @@ public class PostController {
 
 
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePostById(@PathVariable(name = "id") Long id){
         postService.deletePostById(id);
