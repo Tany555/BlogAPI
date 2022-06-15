@@ -30,5 +30,4 @@ public class Post {
     private Set<Comment> comment = new HashSet<>();
 
 
-
 }

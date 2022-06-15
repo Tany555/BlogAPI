@@ -46,33 +46,6 @@ public class PostServiceImpl implements PostService {
     }
 
 
-    private PostDto maptoDto (Post post){
-
-        //Comment out as we are using model mapper
-       /* PostDto postDto = new PostDto();
-        postDto.setId(post.getId());
-        postDto.setTitle(post.getTitle());
-        postDto.setDescription(post.getDescription());
-        postDto.setContent(post.getContent());*/
-
-        PostDto postDto = mapper.map(post, PostDto.class);
-
-        return postDto;
-    }
-
-    private Post mapToPost(PostDto postDto){
-        Post post = mapper.map(postDto, Post.class);
-        //Comment out as we are using model mapper
-        /*Post post =new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());*/
-
-
-
-        return post;
-
-    }
 
     @Override
     public PostResponce getAllPost(int pageNo, int pageSize, String sortBy, String sortDir) {
@@ -127,6 +100,35 @@ public class PostServiceImpl implements PostService {
 
         Post post = postRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Post", "id",id));
         postRepository.deleteById(id);
+
+    }
+
+
+    private PostDto maptoDto (Post post){
+
+        //Comment out as we are using model mapper
+       /* PostDto postDto = new PostDto();
+        postDto.setId(post.getId());
+        postDto.setTitle(post.getTitle());
+        postDto.setDescription(post.getDescription());
+        postDto.setContent(post.getContent());*/
+
+        PostDto postDto = mapper.map(post, PostDto.class);
+
+        return postDto;
+    }
+
+    private Post mapToPost(PostDto postDto){
+        Post post = mapper.map(postDto, Post.class);
+        //Comment out as we are using model mapper
+        /*Post post =new Post();
+        post.setTitle(postDto.getTitle());
+        post.setDescription(postDto.getDescription());
+        post.setContent(postDto.getContent());*/
+
+
+
+        return post;
 
     }
 

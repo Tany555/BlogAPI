@@ -43,14 +43,17 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody LoginDto loginDto){
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getUsernameOrEmail(),loginDto.getPassword()
-        ));
+        System.out.println("Auth controler 1");
 
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDto.getUsernameOrEmail(), loginDto.getPassword()));
+        System.out.println("Auth controler getting context");
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        // get token form tokenProvider
+        System.out.println("Auth controler getting token from token provider");
         String token = jwtTokenProvider.generateToken(authentication);
-
+        System.out.println("Auth controler returning token");
         return ResponseEntity.ok(new JWTAuthResponse(token));
 
     }
